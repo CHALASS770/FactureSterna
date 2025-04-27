@@ -26,7 +26,7 @@ if (isset($_GET['id'])) {
 	// echo $id;
 	$invoiceDetails = $invoice->getInvoiceByID($id);
 
-	setlocale(LC_TIME, 'fr_FR.UTF-8');
+	setlocale(LC_TIME, 'fr_IL.UTF-8');
 	// var_dump($invoiceDetails);
 	// exit();
 	$date = strtotime($invoiceDetails[0]['updated_at']);
@@ -46,12 +46,12 @@ if (isset($_GET['id'])) {
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="he-IL" dir="rtl">
 <head>
     <meta charset="utf-8">
     <!--  This file has been downloaded from bootdey.com @bootdey on twitter -->
     <!--  All snippets are MIT license http://bootdey.com/license -->
-    <title>white invoice - Bootdey.com</title>
+    <title>חשבונית</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.23.5/dist/bootstrap-table.min.css">
@@ -85,16 +85,19 @@ if (isset($_GET['id'])) {
 								<!-- Row end -->
 								<!-- Row start -->
 								<div class="row gutters">
-									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+									<div class="col-xl-2 col-lg-6 col-md-6 col-sm-6">
 										<a href="index.html" class="invoice-logo">
 											<img src="../src/assets/images/logos/LOGO1.png" alt="">
 										</a>
 									</div>
 									<div class="col-lg-6 col-md-6 col-sm-6">
 										<address class="text-right address">
-											Yves Sofer<br>
-											Yvessofer.com<br>
-											06 51 69 03 04<br>
+										משפחתון של שטערנא<br>
+										שטערנא אסולין אסרף<br>
+										053-787-2141<br>
+										329714950 העסק מספר<br>
+										רחוב הרצל 26<br>
+										חדרה 3842118<br>
 										</address>
 									</div>
 								</div>
@@ -103,8 +106,8 @@ if (isset($_GET['id'])) {
 							<!-- Row start -->
 							<div class="row gutters">
 								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-									<div class="invoice-details">
-										<address>
+									<div class="invoice-details text-right">
+										<address style="family: 'David Libre', sans-serif; font-size: 18px; font-weight: bold; color: #4681da;">
 											<?php echo $invoiceDetails[0]['customer_name']; ?><br>
 											<?php echo $invoiceDetails[0]['address'];?><br>
 											<?php echo $invoiceDetails[0]['zipcode'];?> <?php echo $invoiceDetails[0]['city'];?> <br>
@@ -114,7 +117,7 @@ if (isset($_GET['id'])) {
 								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
 									<div class="invoice-details">
 										<div class="invoice-num">
-											<div><?php echo ucfirst($invoiceDetails[0]['type'])?> N° <?php echo str_pad($invoiceDetails[0]['invoice_number'], 4, '0', STR_PAD_LEFT)?></div>
+											<div><?php echo $invoiceDetails[0]['type'] == 'facture' ? 'חשבונית' : 'לְהַעֲרִיך' ?>  <?php echo str_pad($invoiceDetails[0]['invoice_number'], 4, '0', STR_PAD_LEFT)?></div>
 											<br>
 											<div><?php echo $date;?></div>
 										</div>
@@ -129,24 +132,24 @@ if (isset($_GET['id'])) {
 							<table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th>Produit</th>
-                                                    <th>Identifiant</th>
-                                                    <th>Quantité</th>
-                                                    <th>Prix unitaire</th>
-                                                    <th>Prix total</th>
+                                                    <th>מוצר</th>
+                                                    <th>ID</th>
+                                                    <th>כמות</th>
+                                                    <th>מחיר ליחידה</th>
+                                                    <th>מחיר סה"כ</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php foreach ($invoiceDetails as $item): 
-                                                    $unitPrice = floatval(str_replace('€','',$item['unit_price']));
-                                                    $totalProductPrice = floatval(str_replace('€','',$item['total_product_price']));
+                                                    $unitPrice = floatval(str_replace('₪','',$item['unit_price']));
+                                                    $totalProductPrice = floatval(str_replace('₪','',$item['total_product_price']));
                                                     ?>
                                                 <tr>
                                                     <td><?= htmlspecialchars($item['product']); ?></td>
                                                     <td><?= htmlspecialchars($item['product_id']); ?></td>
                                                     <td><?= htmlspecialchars($item['quantity']); ?></td>
-                                                    <td><?= htmlspecialchars(number_format($unitPrice , 2, ',', ' ')) . ' €'; ?></td>
-                                                    <td><?= htmlspecialchars(number_format($totalProductPrice, 2, ',', ' ')) . ' €'; ?></td>
+                                                    <td><span style="direction: ltr; display: inline-block; text-align: left;"><?= htmlspecialchars(number_format($unitPrice, 2, ',', ' ')) . ' ₪'; ?></span></td>													</td>
+                                                    <td><span style="direction: ltr; display: inline-block; text-align: left;"><?= htmlspecialchars(number_format($totalProductPrice, 2, ',', ' ')) . ' ₪'; ?></span></td>
                                                 </tr>
 												<?php $total = $total + $totalProductPrice; ?>
                                                 <?php endforeach; ?>
@@ -155,31 +158,15 @@ if (isset($_GET['id'])) {
 											
 											<tfoot>
 												<tr>
-													<td colspan="3" style="text-align: left; font-weight: bold;">TOTAL : </td>
+													<td colspan="3" style="text-align: left; font-weight: bold;"> סה"כ : </td>
 												<!--get total for all $totalProductPrice from for each -->
-												<td colspan="2" style="text-align: right; font-weight: bold;"><?= htmlspecialchars(number_format($total, 2, ',', ' ')) . ' €'; ?></td>
+												<td colspan="2" style="text-align: right; font-weight: bold;"><span style="direction: ltr; display: inline-block; text-align: left;"><?= htmlspecialchars(number_format($total, 2, ',', ' ')) . ' ₪'; ?></span></td>
 												</tr>
 											</tfoot>
 											
                                         </table>
 							</div>
-							<?php if (!empty($invoiceDetails[0]['pictures_folder'])): ?>
-							<div>
-								<table class="table table-bordered">
-									<thead>
-										<tr>
-            								<th colspan="3" style="text-align: center;">Images</th>
-        								</tr>
-									</thead>
-									<tbody>
-										
-										<?php include (__DIR__.'/../src/utils/functions/pictures_section.php');?>
-										
-									</tbody>
-								</table>
-
-							</div>
-							<?php endif; ?>
+							
 							<!-- Row end -->
 						</div>	
 					</div>
@@ -187,10 +174,14 @@ if (isset($_GET['id'])) {
 				<div class="card-footer">
 					<div class="row gutters">
 						<!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6"> -->
-							<div class="text-center">
-								<p>Nous acceptons les retours dans un délai de 14 jours à compter de la date de réception de votre commande. Les articles doivent être non utilisés, dans leur état d'origine, et accompagnés de leur emballage d'origine.
-Pour initier un retour, veuillez contacter notre service client. Les frais de retour sont à votre charge, sauf en cas d'article défectueux ou d'erreur de notre part.</p>
-							</div>
+						<address class="text-right">
+										משפחתון של שטערנא<br>
+										שטערנא אסולין אסרף<br>
+										053-787-2141<br>
+										329714950 העסק מספר<br>
+										רחוב הרצל 26<br>
+										חדרה 3842118<br>
+										</address>
 						<!-- </div> -->
 					</div>
 			</div>

@@ -2,7 +2,7 @@
 // Récupérer le dossier des photos
 $picturesFolder = __DIR__ .'/../../../src/uploads/' . $invoiceDetails[0]['pictures_folder'];
 // Chemin public pour afficher les images
-$publicBasePath = '/FacturesYves/src/uploads/' . $invoiceDetails[0]['pictures_folder'];
+$publicBasePath = '/FactureSterna/src/uploads/' . $invoiceDetails[0]['pictures_folder'];
 
 // echo $picturesFolder;
 // Vérifier si le dossier existe

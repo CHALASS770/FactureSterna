@@ -33,7 +33,7 @@ if (file_exists('css/style.css')) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="he-IL" dir="rtl">
 <head>
     <meta charset="utf-8">
     <title>Invoice - <?= htmlspecialchars($invoiceDetails[0]['customer_name']); ?></title>

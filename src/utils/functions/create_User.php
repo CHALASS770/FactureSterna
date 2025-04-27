@@ -17,15 +17,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
    
     if ($result) {
         // Rediriger vers la page d'accueil
-        header("Location: /FacturesYves/index.php");
+        header("Location: /FactureSterna/index.php");
         exit();
     } else {
         // En cas d'erreur lors de la création
         $_SESSION['error'] = "Une erreur est survenue lors de la création de l'utilisateur.";
-        header("Location: /FacturesYves/register.php");
+        header("Location: /FactureSterna/register.php");
         exit();
     }
-    header("Location: /FacturesYves/index.php");
+    header("Location: /FactureSterna/index.php");
     exit();
 }
 ?>

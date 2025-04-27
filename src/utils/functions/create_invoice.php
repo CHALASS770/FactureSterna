@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $productsInvoice->addProductToInvoice($invoice_id, $product_id, $quantity, $productInfos['price']);
     }
 
-    header("Location: /FacturesYves/index.php");
+    header("Location: /FactureSterna/index.php");
     exit();
 }
 ?>

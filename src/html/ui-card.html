@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="he-IL" dir="rtl">
 
 <head>
   <meta charset="utf-8">

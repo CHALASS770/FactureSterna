@@ -3,7 +3,7 @@
  * Connexion à la base de données en mysqli
  */
 $host = 'localhost'; // Hôte de la base de données
-$bdd = 'facture'; // Nom de la base
+$bdd = 'SternaInvoices'; // Nom de la base
 $bdd_user = 'root'; // Nom d'utilisateur de la base de données
 $bdd_password = ''; // Mot de passe de la base de données
 

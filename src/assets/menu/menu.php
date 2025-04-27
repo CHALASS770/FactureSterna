@@ -6,7 +6,7 @@
                 <span>
                   <i class="ti ti-layout-dashboard"></i>
                 </span>
-                <span class="hide-menu">Accueil</span>
+                <span class="hide-menu">דף הבית</span>
               </a>
             </li>
             <li class="sidebar-item">
@@ -14,7 +14,7 @@
                 <span>
                   <i class="ti ti-article"></i>
                 </span>
-                <span class="hide-menu">Créer une facture</span>
+                <span class="hide-menu">צור חשבונית</span>
               </a>
             </li>
             <li class="sidebar-item">
@@ -22,7 +22,7 @@
                 <span>
                   <i class="ti ti-user-plus"></i>
                 </span>
-                <span class="hide-menu">Créer un nouveau client</span>
+                <span class="hide-menu">צור לקוח חדש</span>
               </a>
             </li>
             <li class="sidebar-item">
@@ -30,7 +30,7 @@
                 <span>
                   <i class="ti ti-shopping-cart"></i>
                 </span>
-                <span class="hide-menu">Créer un nouvel article</span>
+                <span class="hide-menu">צור מוצר חדש</span>
               </a>
             </li>
             

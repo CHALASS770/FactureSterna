@@ -88,7 +88,7 @@ if (isset($_GET['id'])) {
 								<div class="row gutters">
 									<div class="col-xl-2 col-lg-6 col-md-6 col-sm-6">
 										<a href="index.html" class="invoice-logo">
-											<img src="../src/assets/images/logos/LOGO1.png" alt="">
+											<!-- <img src="../src/assets/images/logos/LOGO1.png" alt=""> -->
 										</a>
 									</div>
 									<div class="col-lg-6 col-md-6 col-sm-6">
@@ -160,6 +160,7 @@ if (isset($_GET['id'])) {
                                                 </tr>
 												<?php $total = $total + $totalProductPrice; ?>
                                                 <?php endforeach; ?>
+
                                             </tbody>
 											<!--add table footer-->
 											
@@ -172,6 +173,15 @@ if (isset($_GET['id'])) {
 											</tfoot>
 											
                                         </table>
+										<img src="../src/assets/images/backgrounds/paid.png" alt="Paid" class="paid-stamp" style="
+    width: 250px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    opacity: 0.3; /* Ajustable selon besoin */
+    pointer-events: none;">
 							</div>
 							
 							<!-- Row end -->
@@ -223,7 +233,7 @@ if (isset($_GET['id'])) {
 	console.log($name);
 	html2pdf().from(element).outputPdf('blob').then(function(pdfBlob) {
 		//show alert if we entered here 
-		alert('Nous sommes entrés dans le mail !');
+		// alert('Nous sommes entrés dans le mail !');
 		const formData = new FormData();
 	  formData.append('file', pdfBlob,$name + '_invoice_' + $id + '.pdf')
 	  formData.append('id', $id);
@@ -232,8 +242,8 @@ if (isset($_GET['id'])) {
     body: formData
   })
   .then(res => res.text())
-  .then(response => alert(response))
-  .catch(error => alert('Erreur envoi vers serveur :', error));
+  .then(response => console.log(response))
+  .catch(error => console.log('Erreur envoi vers serveur :', error));
   });
 }
 </script>

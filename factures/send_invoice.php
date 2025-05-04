@@ -18,9 +18,8 @@ $invoice = new Invoices($conn);
 $invoiceDetails = $invoice->getInvoiceByID($invoice_number);
 
 $html = file_get_contents("http://localhost/FactureSterna/factures/invoice.php?id=$invoice_number&mail=1");
-// echo $html;
+echo $html;
 
-sleep(2);
 
 // Génération du PDF
 // $dompdf = new Dompdf();
@@ -37,8 +36,10 @@ $mail = new PHPMailer(true);
 try {
     $mail->setFrom('prolyspc@gmail.com', 'Mishpachton sheli');
     $mail->addAddress($invoiceDetails[0]['email'], $invoiceDetails[0]['customer_name']);
-    $mail->Subject = "Your invoice number $invoice_number";
-    $mail->Body = "Please find your invoice attached.";
+    $mail->CharSet = 'UTF-8';
+    $mail->isHTML(true);
+    $mail->Subject = " החשבונית $invoice_number";
+    $mail->Body = "אנא מצא את החשבונית שלך מצורפת.";
     $mail->addAttachment($pdfPath, $invoiceDetails[0]['lastname']."_invoice_$invoice_number.pdf");
 
     $mail->isSMTP();
@@ -52,7 +53,7 @@ try {
     $mail->send();
     unlink($pdfPath);
     echo "<script>alert('Facture envoyée avec succès !');</script>";
+    header("Location: /FactureSterna/index.php");
 } catch (Exception $e) {
     echo "<script>alert('Erreur lors l-envoi : {$mail->ErrorInfo}');</script>";
 }
-header("Location: /FactureSterna/index.php");

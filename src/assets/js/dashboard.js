@@ -179,7 +179,7 @@ $(function () {
 function operateFormatter(value, row, index) {
     console.log({ row });
     return [
-      `<a class="view" href="factures/invoice.php?id=${row.invoice_number}" title="Visualiser">`,
+      `<a class="view" href="factures/invoice.php?id=${row.invoice_number}&mail=1" title="Visualiser">`,
       '<i class="fa fa-eye"></i>',
       '</a>  ',
       '    ',

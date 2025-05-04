@@ -2,7 +2,7 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 if (isset($_FILES['file']) && isset($_POST['id'])) {
-    echo "<script>alert('Fichier et ID reçus.');</script>";
+    // echo "<script>alert('Fichier et ID reçus.');</script>";
     // Vérifier si le fichier est un PDF
     $invoiceId = intval($_POST['id']);
     $uploadDir = __DIR__ . '/'; // Dossier invoices/

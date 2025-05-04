@@ -59,8 +59,8 @@ $productList = $products->getAllProducts();
           </div>
         <?php include('src/assets/menu/menu.php'); ?>
     <div class="container">
-      <h1>צור חשבונית חדשה</h1>
-      <form action="src/utils/functions/create_invoice.php" method="POST" enctype="multipart/form-data">
+      <h1 style="text-align:center">צור חשבונית חדשה</h1>
+      <form class="col-sm-5 mx-auto" action="src/utils/functions/create_invoice.php" method="POST" enctype="multipart/form-data">
         <!-- Sélection du client -->
         <div class="mb-3">
           <label for="client" class="form-label">לקוח</label>
@@ -93,6 +93,12 @@ $productList = $products->getAllProducts();
           </select>
         </div>
 
+        <!-- Date -->
+        <div class="mb-3 d-none" id="payement-date-container">
+          <label for="payement-date" class="form-label">תאריך התשלום</label>
+          <input type="date" class="form-control" id="payement-date" name="payement-date" >
+        </div>
+
         <!-- Produits -->
         <div id="products-container">
           <h3>מוצרים</h3>
@@ -113,14 +119,20 @@ $productList = $products->getAllProducts();
                 <label for="quantity_0" class="form-label">כמות</label>
                 <input type="number" class="form-control" name="products[0][quantity]" id="quantity_0" min="1" required>
               </div>
-              <div class="col-md-3">
-                <button type="button" class="btn btn-danger mt-4 remove-product">למחוק</button>
-              </div>
+              <br>
+
+                <label for="discount" class="form-label mt-5 mb-5 ms-8" style="font-size: 20px;">הנחה
+                <input type="checkbox" class="form-check-input me-3" id="discount_0" name="discount_0" value="12.5">
+                </label>
             </div>
           </div>
         </div>
-        <button type="button" id="add-product" class="btn btn-primary">הוסף מוצר</button>
-
+        <button type="button" id="add-product" class="btn btn-primary mt-3 mb-5 ms-6 ">הוסף מוצר</button>
+        
+        <button type="submit" class="btn btn-success mt-3 mb-5 ms-6 ">צור את החשבונית</button>
+        
+          <button type="button" class="btn btn-danger mt-3 mb-5 ms-6  remove-product">למחוק</button>
+        
         <!-- add picture -->
         <!-- <div id="products-container">
           <h3>Images</h3>
@@ -138,7 +150,6 @@ $productList = $products->getAllProducts();
         </div> -->
 
         <!-- Soumettre -->
-        <button type="submit" class="btn btn-success mt-3">צור את החשבונית</button>
       </form>
     </div>
   </div>

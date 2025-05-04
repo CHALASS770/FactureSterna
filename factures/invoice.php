@@ -110,7 +110,9 @@ if (isset($_GET['id'])) {
 										<address style="family: 'David Libre', sans-serif; font-size: 18px; font-weight: bold; color: #4681da;">
 											<?php echo $invoiceDetails[0]['customer_name']; ?><br>
 											<?php echo $invoiceDetails[0]['address'];?><br>
-											<?php echo $invoiceDetails[0]['zipcode'];?> <?php echo $invoiceDetails[0]['city'];?> <br>
+											<?php echo $invoiceDetails[0]['city'];?> <br>
+											<?php echo $invoiceDetails[0]['phone'];?><br>
+											<?php echo $invoiceDetails[0]['email'];?><br>
 										</address>
 									</div>
 								</div>
@@ -119,7 +121,9 @@ if (isset($_GET['id'])) {
 										<div class="invoice-num">
 											<div><?php echo $invoiceDetails[0]['type'] == 'facture' ? 'חשבונית' : 'לְהַעֲרִיך' ?>  <?php echo str_pad($invoiceDetails[0]['invoice_number'], 4, '0', STR_PAD_LEFT)?></div>
 											<br>
-											<div><?php echo $date;?></div>
+											<div style="color: #FF5733">תאריך התשלום : <?php echo $invoiceDetails[0]['payement_date'];?></div>
+											<br>
+											<div>תאריך יצירה :<?php echo $invoiceDetails[0]['updated_at'];?></div>
 										</div>
 									</div>													
 								</div>
@@ -136,19 +140,21 @@ if (isset($_GET['id'])) {
                                                     <th>ID</th>
                                                     <th>כמות</th>
                                                     <th>מחיר ליחידה</th>
+													<th>הנחה</th>
                                                     <th>מחיר סה"כ</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php foreach ($invoiceDetails as $item): 
                                                     $unitPrice = floatval(str_replace('₪','',$item['unit_price']));
-                                                    $totalProductPrice = floatval(str_replace('₪','',$item['total_product_price']));
+                                                    $totalProductPrice = floatval(str_replace('₪','',$item['total_product_price'])) - (floatval(str_replace('₪','',$item['total_product_price'])) * ($item['reduction'] / 100));
                                                     ?>
                                                 <tr>
                                                     <td><?= htmlspecialchars($item['product']); ?></td>
                                                     <td><?= htmlspecialchars($item['product_id']); ?></td>
                                                     <td><?= htmlspecialchars($item['quantity']); ?></td>
-                                                    <td><span style="direction: ltr; display: inline-block; text-align: left;"><?= htmlspecialchars(number_format($unitPrice, 2, ',', ' ')) . ' ₪'; ?></span></td>													</td>
+                                                    <td><span style="direction: ltr; display: inline-block; text-align: left;"><?= htmlspecialchars(number_format($unitPrice, 2, ',', ' ')) . ' ₪'; ?></span></td>		
+													<td><?= htmlspecialchars(number_format($item['reduction'], 2, ',', ' ')); ?>% </td>											</td>
                                                     <td><span style="direction: ltr; display: inline-block; text-align: left;"><?= htmlspecialchars(number_format($totalProductPrice, 2, ',', ' ')) . ' ₪'; ?></span></td>
                                                 </tr>
 												<?php $total = $total + $totalProductPrice; ?>
@@ -199,6 +205,12 @@ if (isset($_GET['id'])) {
 <script type="text/javascript"></script>
 
 <script src="../src/assets/js/invoices.js?v=<?=$version?>" ></script>
-
+<?php if (isset($_GET['print']) && $_GET['print'] == 1): ?>
+<script>
+  window.onload = function() {
+    window.print();
+  };
+</script>
+<?php endif; ?>
 </body>
 </html>

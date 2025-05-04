@@ -183,9 +183,14 @@ function operateFormatter(value, row, index) {
       '<i class="fa fa-eye"></i>',
       '</a>  ',
       '    ',
-    //   '  <a class="edit" href="" title="edit">',
-    //   '<i class="fa fa-pencil-square-o"></i>',
-      '</a>'
+      '  ',
+    `<a class="print" href="factures/invoice.php?id=${row.invoice_number}&print=1" title="Imprimer" target="_blank">`,
+    ' <i class="fa fa-print"></i>',
+    '</a>',
+    '  ',
+    `<a class="email" href="factures/send_invoice.php?id=${row.invoice_number}" title="Envoyer par e-mail">`,
+    '<i class="fa fa-envelope"></i>',
+    '</a>'
     ].join('');
 }
 

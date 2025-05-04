@@ -9,8 +9,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $client_id = $_POST['client_id'];
     $type = $_POST['type'];
     $status = $_POST['status'];
+    $payment_date = isset($_POST['payement-date']) ? $_POST['payement-date'] : null;
     $products = $_POST['products'];
     $customerFolder = null;
+    $reduction = isset($_POST['discount_0']) ? $_POST['discount_0'] : 0;
     
     $invoice = new Invoices($conn);
     $productsInvoice = new InvoiceProducts($conn);
@@ -22,9 +24,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $product_id = $product['product_id'];
         $quantity = $product['quantity'];
         $productInfos = $productype->getProduct($product_id);
+        $productInfos['price'] = $productInfos['price'] - ($productInfos['price'] * ($reduction / 100));
         $total += ($quantity * $productInfos['price']);
     }
-    $invoice_id = $invoice->createInvoice($client_id, $type, $status, $total);
+    $invoice_id = $invoice->createInvoice($client_id, $type, $status, $total, $payment_date, $reduction);
 
     if (!empty($_FILES['pictures']['name'][0])) {
         // Dossier de destination des images

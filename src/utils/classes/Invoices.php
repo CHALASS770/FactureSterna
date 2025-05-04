@@ -10,10 +10,10 @@ class Invoices
     }
 
     // Créer une facture
-    public function createInvoice($client_id, $type, $status, $total )
+    public function createInvoice($client_id, $type, $status, $total , $payment_date = null, $reduction = 0.0)
     {
-        $sql = "INSERT INTO invoices (client_id, type, date_creation, `status`, total) 
-        VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO invoices (client_id, type, date_creation, `status`, payement_date, total, reduction) 
+        VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
 
         if (!$stmt) {
@@ -22,7 +22,7 @@ class Invoices
 
         // Utiliser bind_param pour lier les paramètres
         $date_creation = date('Y-m-d');
-        $stmt->bind_param("isssd", $client_id, $type, $date_creation, $status, $total);
+        $stmt->bind_param("issssdd", $client_id, $type, $date_creation, $status, $payment_date, $total, $reduction);
 
         if (!$stmt->execute()) {
             die("Erreur lors de l'exécution : " . $stmt->error);
@@ -96,14 +96,17 @@ public function getSumInvoiceByMonth($month)
 	cust.address,
 	cust.city,
 	cust.zipcode,
+    cust.email,
+	cust.phone,
 	i.total,
 	IP.product_id,
 	IP.quantity,
-	CONCAT(IP.total, ' €') as total_product_price,
-	CONCAT(IP.unit_price, ' €') as unit_price,
+    i.reduction,
+	CONCAT(IP.total, ' ₪') as total_product_price,
+	CONCAT(IP.unit_price, ' ₪') as unit_price,
 	p.product,
-    i.pictures_folder,
-	DATE_FORMAT(DATE(i.updated_at), '%d-%m-%Y') updated_at 
+    i.payement_date,
+	DATE_FORMAT(DATE(i.updated_at), '%Y-%m-%d') updated_at 
     FROM
 	    invoices i
 	LEFT JOIN clients cust ON (client_id = cust.id) 

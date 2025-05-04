@@ -39,5 +39,14 @@ $(document).ready(function () {
     $(document).on('click', '.remove-product', function () {
       $(this).closest('.product-row').remove();
     });
+
+    // delete class d-none payement-date-container when select with id status has a value of payé
+    $('#status').change(function () {
+      if ($(this).val() === 'payé') {
+        $('#payement-date-container').removeClass('d-none');
+      } else {
+        $('#payement-date-container').addClass('d-none');
+      }
+
   });
-  
+})

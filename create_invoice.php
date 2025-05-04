@@ -122,7 +122,7 @@ $productList = $products->getAllProducts();
               <br>
 
                 <label for="discount" class="form-label mt-5 mb-5 ms-8" style="font-size: 20px;">הנחה
-                <input type="checkbox" class="form-check-input me-3" id="discount_0" name="discount_0" value="12.5">
+                <input type="checkbox" class="form-check-input me-3" id="discount_0" name="discount_0" value="8.3333">
                 </label>
             </div>
           </div>

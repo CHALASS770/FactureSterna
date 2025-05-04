@@ -2,15 +2,7 @@
 $(document).ready(function() {
   console.log("Chargement des données statiques pour tester.");
 console.log({invoice_details});
-  $('#invoice_table').bootstrapTable({
-    data: invoice_details, // all_invoices doit être correctement définie par PHP 
-    locale: 'fr-FR',
-    fixedHeader: false,
-  });
-
-  $('#invoice_table').DataTable({
-    fixedHeader: false
-});
+ 
 });
 
 function idFormatter() {

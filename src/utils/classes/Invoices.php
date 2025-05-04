@@ -9,34 +9,46 @@ class Invoices
         $this->conn = $conn;
     }
 
-    // Créer une facture
-    public function createInvoice($client_id, $type, $status, $total , $payment_date = null, $reduction = 0.0)
+    // Créer une nouvelle facture
+    public function createInvoice($client_id, $type, $status, $total, $payment_date = null, $reduction = 0.0)
     {
         $sql = "INSERT INTO invoices (client_id, type, date_creation, `status`, payement_date, total, reduction) 
-        VALUES (?, ?, ?, ?, ?, ?, ?)";
+                VALUES (?, ?, ?, ?, ?, ?, ?)";
+
         $stmt = $this->conn->prepare($sql);
 
         if (!$stmt) {
             die("Erreur lors de la préparation : " . $this->conn->error);
         }
 
-        // Utiliser bind_param pour lier les paramètres
         $date_creation = date('Y-m-d');
-        $stmt->bind_param("issssdd", $client_id, $type, $date_creation, $status, $payment_date, $total, $reduction);
+
+        // Assurez-vous que payment_date est null si vide ou invalide
+        $payment_date = !empty($payment_date) ? $payment_date : null;
+
+        // bind_param : "i" = int, "s" = string, "d" = double
+        // Pour les types : client_id (i), type (s), date_creation (s), status (s), payment_date (s or null), total (d), reduction (d)
+        $stmt->bind_param(
+            "issssdd",
+            $client_id,
+            $type,
+            $date_creation,
+            $status,
+            $payment_date,
+            $total,
+            $reduction
+        );
 
         if (!$stmt->execute()) {
             die("Erreur lors de l'exécution : " . $stmt->error);
         }
 
         $invoice_id = $stmt->insert_id;
-        
-
         $stmt->close();
 
         return $invoice_id;
-
-    
     }
+
 
     // Récupérer une facture par ID
     public function getInvoiceByMonth($month)
@@ -93,6 +105,8 @@ public function getSumInvoiceByMonth($month)
 	invoice_number,
 	type,
 	CONCAT(cust.firstname, ' ', cust.lastname) AS customer_name,
+    cust.firstname,
+    cust.lastname,
 	cust.address,
 	cust.city,
 	cust.zipcode,

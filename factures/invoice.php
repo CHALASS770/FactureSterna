@@ -61,6 +61,7 @@ if (isset($_GET['id'])) {
 	var invoice_details = <?=json_encode($invoiceDetails); ?>
 </script>
 <body>
+<div id="invoice">
 <div class="container">
 <div class="row gutters">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -194,7 +195,7 @@ if (isset($_GET['id'])) {
 		</div>
 	</div>
 </div>
-
+</div>
 <?php $version = rand(1,10);?>
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -205,11 +206,36 @@ if (isset($_GET['id'])) {
 <script type="text/javascript"></script>
 
 <script src="../src/assets/js/invoices.js?v=<?=$version?>" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <?php if (isset($_GET['print']) && $_GET['print'] == 1): ?>
 <script>
   window.onload = function() {
     window.print();
   };
+</script>
+<?php endif; ?>
+<?php if (isset($_GET['mail']) && $_GET['mail'] == 1): ?>
+<script>
+  window.onload = function() {
+	var $name = invoice_details[0]['lastname'];
+	var $id = invoice_details[0]['invoice_number'];
+	var element = document.getElementById('invoice');
+	console.log($name);
+	html2pdf().from(element).outputPdf('blob').then(function(pdfBlob) {
+		//show alert if we entered here 
+		alert('Nous sommes entrés dans le mail !');
+		const formData = new FormData();
+	  formData.append('file', pdfBlob,$name + '_invoice_' + $id + '.pdf')
+	  formData.append('id', $id);
+	  fetch('invoices/upload_pdf.php', {
+    method: 'POST',
+    body: formData
+  })
+  .then(res => res.text())
+  .then(response => alert(response))
+  .catch(error => alert('Erreur envoi vers serveur :', error));
+  });
+}
 </script>
 <?php endif; ?>
 </body>

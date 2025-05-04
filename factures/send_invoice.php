@@ -1,8 +1,9 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../src/utils/connectDB.php';
 require_once __DIR__ . '/../src/utils/autoload.php';
-
 use Dompdf\Dompdf;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -16,41 +17,42 @@ if (!$invoice_number) {
 $invoice = new Invoices($conn);
 $invoiceDetails = $invoice->getInvoiceByID($invoice_number);
 
-// Générez le HTML de la facture (ou incluez invoice.php dans une variable)
-ob_start();
-include('invoice_pdf_template.php'); // version simplifiée sans JS
-$html = ob_get_clean();
+$html = file_get_contents("http://localhost/FactureSterna/factures/invoice.php?id=$invoice_number&mail=1");
+// echo $html;
+
+sleep(2);
 
 // Génération du PDF
-$dompdf = new Dompdf();
-$dompdf->loadHtml($html);
-$dompdf->setPaper('A4', 'portrait');
-$dompdf->render();
+// $dompdf = new Dompdf();
+// $dompdf->loadHtml($html);
+// $dompdf->setPaper('A4', 'portrait');
+// $dompdf->render();
 
-$pdfContent = $dompdf->output();
-$pdfPath = __DIR__ . "/temp_invoice_$invoice_number.pdf";
-file_put_contents($pdfPath, $pdfContent);
+// $pdfContent = $dompdf->output();
+$pdfPath = __DIR__ . "/invoices/".$invoiceDetails[0]['lastname']."_invoice_$invoice_number.pdf";
+// file_put_contents($pdfPath, $pdfContent);
 
 // Envoi d'e-mail
 $mail = new PHPMailer(true);
 try {
-    $mail->setFrom('@gmail.com', 'Ton Nom');
+    $mail->setFrom('prolyspc@gmail.com', 'Mishpachton sheli');
     $mail->addAddress($invoiceDetails[0]['email'], $invoiceDetails[0]['customer_name']);
-    $mail->Subject = "החשבונית שלך מספר $invoice_number";
-    $mail->Body = "Veuillez trouver ci-joint votre facture.";
-    $mail->addAttachment($pdfPath, "$invoiceDetails[0]['customer_name']_invoice_$invoice_number.pdf");
+    $mail->Subject = "Your invoice number $invoice_number";
+    $mail->Body = "Please find your invoice attached.";
+    $mail->addAttachment($pdfPath, $invoiceDetails[0]['lastname']."_invoice_$invoice_number.pdf");
 
     $mail->isSMTP();
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
-    $mail->Username = 'prolypc@gmail.com';
-    $mail->Password = 'familleassouline';
+    $mail->Username = 'prolyspc@gmail.com';
+    $mail->Password = 'fqqn gjaj ymsy biti';
     $mail->SMTPSecure = 'tls';
     $mail->Port = 587;
 
     $mail->send();
     unlink($pdfPath);
-    alert( "Facture envoyée avec succès.");
+    echo "<script>alert('Facture envoyée avec succès !');</script>";
 } catch (Exception $e) {
-    alert( "Erreur lors de l'envoi : {$mail->ErrorInfo}");
+    echo "<script>alert('Erreur lors l-envoi : {$mail->ErrorInfo}');</script>";
 }
+header("Location: /FactureSterna/index.php");

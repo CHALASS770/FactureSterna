@@ -1,6 +1,6 @@
 <?php
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// ini_set('display_errors', 1);
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../src/utils/connectDB.php';
 require_once __DIR__ . '/../src/utils/autoload.php';
@@ -55,7 +55,7 @@ try {
     $mail->send();
     unlink($pdfPath);
     echo "<script>alert('Facture envoyée avec succès !');</script>";
-    header("Location: /FactureSterna/index.php");
 } catch (Exception $e) {
     echo "<script>alert('Erreur lors l-envoi : {$mail->ErrorInfo}');</script>";
 }
+header("Location: /FactureSterna/index.php");

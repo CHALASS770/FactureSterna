@@ -7,7 +7,7 @@ require_once(__DIR__ . '/src/utils/connectDB.php');
 require_once(__DIR__ . '/src/utils/autoload.php');
 
 $user = new Users($conn);
-
+$year = date("Y");
 if (!$user->check_session()) {
     header("Location: login.php");
     exit();
@@ -42,22 +42,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
 <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-    data-sidebar-position="fixed" data-header-position="fixed">
-    <!-- Sidebar Start -->
-    <!-- <aside class="left-sidebar"> -->
-      <!-- Sidebar scroll-->
-      <!-- <div>
-        <div class="brand-logo d-flex align-items-center justify-content-between">
-          <a href="./index.php" class="text-nowrap logo-img">
-            <img src="src/assets/images/logos/LOGO1.png" width="180" alt="" />
-          </a>
-          <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
-            <i class="ti ti-x fs-8"></i>
-          </div>
-        </div>
-      </div> -->
-  
-
+data-sidebar-position="fixed" data-header-position="fixed">
+    <div class="body-wrapper">
+        <?php include('src/assets/menu/header.php'); ?>
+    </div>
 </div>
 <div class="container">
 <div class="brand-logo d-flex align-items-center justify-content-between">
@@ -101,5 +89,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
 </div>
 </div>
+<?php $version = rand(1,10);?>
+<script src="src/assets/libs/jquery/dist/jquery.min.js?v=<?=$version?>" ></script>
+  <script src="src/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js?v=<?=$version?>" ></script>
+  <script src="src/assets/js/sidebarmenu.js?v=<?=$version?>" ></script>
+  <script src="src/assets/js/app.min.js?v=<?=$version?>" ></script>
+  <script src="src/assets/libs/apexcharts/dist/apexcharts.min.js?v=<?=$version?>" ></script>
+  <script src="src/assets/libs/simplebar/dist/simplebar.js?v=<?=$version?>" ></script>
+
+  <script src="src/assets/js/dashboard.js?v=<?=$version?>" ></script>
 </body>
 </html>

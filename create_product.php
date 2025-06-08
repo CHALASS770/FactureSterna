@@ -27,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "<script>alert('Une erreur est survenue lors de la création du produit.');</script>";
     }
 }
+$year = date("Y");
 ?>
 <!doctype html>
 <html lang="he-IL" dir="rtl">
@@ -37,6 +38,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link rel="stylesheet" href="src/assets/css/styles.min.css" />
 </head>
 <body>
+<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+data-sidebar-position="fixed" data-header-position="fixed">
+    <div class="body-wrapper">
+        <?php include('src/assets/menu/header.php'); ?>
+    </div>
+</div>
 <div class="container">
 <div class="brand-logo d-flex align-items-center justify-content-between">
           <a href="./index.php" class="text-nowrap logo-img">
@@ -63,5 +70,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
     </div>
 </div>
+<?php $version = rand(1,10);?>
+  <script src="src/assets/libs/jquery/dist/jquery.min.js?v=<?=$version?>" ></script>
+  <script src="src/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js?v=<?=$version?>" ></script>
+  <script src="src/assets/js/sidebarmenu.js?v=<?=$version?>" ></script>
+  <script src="src/assets/js/app.min.js?v=<?=$version?>" ></script>
+  <script src="src/assets/libs/apexcharts/dist/apexcharts.min.js?v=<?=$version?>" ></script>
+  <script src="src/assets/libs/simplebar/dist/simplebar.js?v=<?=$version?>" ></script>
+
+  <script src="src/assets/js/dashboard.js?v=<?=$version?>" ></script>
 </body>
+
 </html>

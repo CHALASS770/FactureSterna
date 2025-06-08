@@ -139,14 +139,32 @@ public function getSumInvoiceByMonth($month)
     }
 
     // Récupérer toutes les factures
-    public function getAllInvoices()
+    public function getAllInvoices($year = null)
     {
+        if(!is_null($year) && !empty($year)) {
+            $sql = "SELECT
+                invoice_number,
+                type,
+                CONCAT(cust.firstname, ' ', cust.lastname) AS customer_name,
+                total,
+                DATE_FORMAT(DATE(payement_date), '%d-%m-%Y') payement_date
+            FROM
+                invoices
+            LEFT JOIN
+                clients cust on (client_id = cust.id)
+            WHERE YEAR(payement_date) = ?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bind_param("i", $year);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->num_rows > 0 ? $result->fetch_all(MYSQLI_ASSOC) : false;
+        }
         $sql = "SELECT
 	invoice_number,
 	type,
 	CONCAT(cust.firstname, ' ', cust.lastname) AS customer_name,
 	total,
-	DATE_FORMAT(DATE(updated_at), '%d-%m-%Y') updated_at
+	DATE_FORMAT(DATE(payement_date), '%d-%m-%Y') payement_date
     FROM
 	invoices
     LEFT JOIN

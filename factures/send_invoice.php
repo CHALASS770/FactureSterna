@@ -36,6 +36,8 @@ $mail = new PHPMailer(true);
 try {
     $mail->setFrom('prolyspc@gmail.com', 'Mishpachton sheli');
     $mail->addAddress($invoiceDetails[0]['email'], $invoiceDetails[0]['customer_name']);
+    // Ajout du destinataire en CCI (exemple)
+    $mail->addBCC('prolyspc@gmail.com');
     $mail->CharSet = 'UTF-8';
     $mail->isHTML(true);
     $mail->Subject = " החשבונית $invoice_number";
